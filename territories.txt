@@ -1,0 +1,15 @@
+Alaska,11,North America
+Alberta,12,North America
+Central America,13,North America
+Eastern United States,14,North America
+Greenland,15,North America
+Northwest Territory,16,North America
+Ontario,17,North America
+Quebec,18,North America
+Western United States,19,North America
+Argentina,21,South America
+Brazil,22,South America
+Peru,23,South America
+Venezuela,24,South America
+Great Britain,31,Europe
+Iceland,32,Europe

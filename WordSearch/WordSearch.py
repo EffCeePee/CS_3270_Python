@@ -1,4 +1,4 @@
-#__author__ = 'Colton'
+__author__ = 'Colton'
 
 import sys
 from pprint import pprint
@@ -46,19 +46,42 @@ class Words:
 
 
 class Searches:
-    def __init__(self, search_words, g_matrix):
-        self.search_words = search_words
-        self.g_matrix = g_matrix
+    def __init__(self, game_matrix, m_size):
+        self.game_matrix = game_matrix
+        self.m_size = m_size
 
-    def find_words(self):
-        o_index = 0
-        index = 0
-        for s in self.search_words:
-            for x in self.g_matrix[index][o_index]:
-                print(x)
-            s_word = list(self.search_words[o_index])
-            print(s_word)
-            o_index += 1
+    def find_start(self, word):
+        a_word = list(word)
+        b_found = False
+        s_row = 0
+
+        while s_row < self.m_size:
+            s_col = 0
+            while s_col < self.m_size and b_found is False:
+                if a_word[0] == self.game_matrix[s_row][s_col]:
+                    b_found, end_r, end_c = self.search(a_word, s_row, s_col)
+                    s_col += 1
+                else:
+                    s_col += 1
+            s_row += 1
+
+        if b_found == True:
+            return b_found, s_row, s_col, end_r, end_c
+        else:
+            end_r = None
+            end_c = None
+            return b_found, s_row, s_col, end_r, end_c
+
+    def search(self, a_word, row, col):
+        found = False
+        for x in a_word:
+            if x == self.game_matrix[row][col]:
+                found = True
+            else:
+                found = False
+                break
+
+        return found, row, col
 
 
 
@@ -68,5 +91,9 @@ matrix_file = sys.argv[1]
 word_matrix = game.setup_matrix(matrix_file)
 matrix_size = game.get_length()
 words = words.get_word_list(matrix_size, matrix_file)
-searches = Searches(words, word_matrix)
-searches.find_words()
+Searches = Searches(word_matrix, matrix_size)
+
+for word in words:
+    found, start_col, start_row, end_row, end_col = Searches.find_start(word)
+    print(word)
+    print(str(start_col) + ' ' + str(start_row) + ' ' + str(end_row) + ' ' + str(end_col))
